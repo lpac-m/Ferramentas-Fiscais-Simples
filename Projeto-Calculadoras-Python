@@ -1,0 +1,68 @@
+#Definido a ferramenta de Imposto Retido na Nota
+def retencao_calc():
+    valor_serv = float(input('Valor do Serviço prestado: '))
+    pis_aliq = float(input('Aliquota PIS: '))
+    cssl_aliq = float(input('Aliquota CSSL: '))
+    irrf_aliq = float(input('Aliquota IRRF: '))
+    cofins_aliq = float(input('Aliquota COFINS: '))
+    
+    ret_pis =  valor_serv*(pis_aliq/100)
+    ret_cssl = valor_serv*(cssl_aliq/100)
+    ret_irrf = valor_serv*(irrf_aliq/100)
+    ret_cofins = valor_serv*(cofins_aliq/100)
+    valor_nota = valor_serv-(ret_pis+ret_cssl+ret_irrf+ret_cofins)
+
+    print(ret_pis)
+    print(ret_cssl)
+    print(ret_irrf)
+    print(ret_cofins)
+    print(valor_nota)
+    
+    again()
+
+#definindo a ferramenta de Calcular Serie D
+def seried_calc():
+    notas_somadas = []
+    valor_total = 0
+    first_nota = int(input('Número da primeira nota: '))
+    last_nota = first_nota
+    nota = float(input('Valor da nota: '))
+    while nota != 0:
+        notas_somadas.append(nota)
+        valor_total += nota
+        last_nota += 1
+        nota = float(input('Valor da nota: '))
+    else:
+        print("Somatório das notas "+str(first_nota)+" a "+str(last_nota))
+        print("valor total: "+str(valor_total))
+        print(notas_somadas)
+        
+        again()
+    
+#definindo a função para realizar nova operação    
+def again():
+    calc_again = input('Deseja calcular de novo? S/N: ')
+    
+    if calc_again == "s":
+        start()
+        
+    else:
+        print("Até logo")
+        
+#definindo o menu inicial
+def start():
+    print(""""
+    Olá, essas são as ferramentas disponiveis:
+    1. Calculadora de Imposto retido
+    2. Calculadora de Serie D
+    """)
+    ferramenta = int(input('Escolha uma ferramenta: '))
+    if ferramenta == 1:
+        retencao_calc()
+    if ferramenta == 2:
+        seried_calc()
+    else:
+        print('Escolha inválida, tente novamente!')
+        start()
+        
+start()
