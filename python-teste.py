@@ -10,12 +10,29 @@ def csd_open():
     csd_window.geometry('400x200')
 
     valor = StringVar()
-    num_nota = StringVar()
-    valor_final= StringVar()
-    num_final = StringVar()
+    num_nota = IntVar()
+    valor_final = StringVar()
+    num_final = IntVar()
     notas_somadas = StringVar()
 
+    #definição da função Submit para realizar os calculos ao pressionar o botao
     def submit():
+        numero_atual = IntVar()
+        #auto incrementação do numero da nota
+        if int(num_final.get()) == 0:
+            numero_atual = int(num_nota.get()) + 1
+            num_final.set(int(numero_atual))
+        else:
+            numero_atual = int(numero_atual.get()) +1
+            num_final.set(int(numero_atual))
+        
+        #realização da soma dos valores
+        valor_soma = float(valor_final.get())+float(valor.get())
+        valor_final.set(valor_soma)
+
+        
+        
+        #retorno dos valores somados concatenados
         lista_somadas = notas_somadas.get()+' + '+valor.get()
         notas_somadas.set(lista_somadas)
         
@@ -24,17 +41,20 @@ def csd_open():
     #inputs e suas GUI
     csd_title_lbl = Label(csd_window,text='Calculadora de Serie D').grid(column=0,row=0)
     num_lbl = Label(csd_window,text='Número da primeira nota: ').grid(column=0,row=1)
-    num_entry = Entry(csd_window).grid(column=1,row=1)
+    num_entry = Entry(csd_window,textvariable=num_nota).grid(column=1,row=1)
     valor_lbl = Label(csd_window,text='Valor: ').grid(column=0,row=2)
     valor_entry = Entry(csd_window,textvariable=valor).grid(column=1,row=2)
-    submit_btn = Button(csd_window,text='Submeter',command=submit).grid(column=2,row=2)
+    submit_btn = Button(csd_window,text='Submeter',command=lambda:submit()).grid(column=2,row=2)
 
     #output
-    notas_lbl = Label(csd_window,text='Somatório das notas XX a ZZ').grid(column=0,row=4)
+    notas_lbl0 = Label(csd_window,text='Somatório das notas:').grid(column=0,row=4)
+    notas_lbl1 = Label(csd_window,textvariable=num_nota).grid(column=1,row=4)
+    notas_lbl2 = Label(csd_window,text=' a ').grid(column=2,row=4)
+    notas_lbl3 = Label(csd_window,textvariable=num_final).grid(column=3,row=4)
     vfinal_lbl0 = Label(csd_window,text='Valor final: ').grid(column=0,row=5)
     vfinal_lbl = Label(csd_window,textvariable=valor_final).grid(column=2,row=5)
     nsomadas_lbl0 = Label(csd_window,text='Notas somadas: []').grid(column=0,row=6)
-    nsomadas_lbl = Label(csd_window,textvariable=notas_somadas).grid(column=0,row=6)
+    nsomadas_lbl = Label(csd_window,textvariable=notas_somadas).grid(column=0,columnspan=12,row=6)
 
     csd_window.mainloop()
 
