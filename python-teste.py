@@ -9,33 +9,36 @@ def csd_open():
     csd_window.title('Calculadora de Serie D')
     csd_window.geometry('400x200')
 
+    nts_somadas = []
     valor = StringVar()
     num_nota = IntVar()
+    notas_count=IntVar()
     valor_final = StringVar()
     num_final = IntVar()
     notas_somadas = StringVar()
 
     #definição da função Submit para realizar os calculos ao pressionar o botao
     def submit():
-        numero_atual = IntVar()
+        
         #auto incrementação do numero da nota
-        if int(num_final.get()) == 0:
-            numero_atual = int(num_nota.get()) + 1
-            num_final.set(int(numero_atual))
-        else:
-            numero_atual = int(numero_atual.get()) +1
-            num_final.set(int(numero_atual))
+        notas_count.set(notas_count.get()+1)
+        num_final.set(num_nota.get()+notas_count.get())
+            
         
         #realização da soma dos valores
-        valor_soma = float(valor_final.get())+float(valor.get())
-        valor_final.set(valor_soma)
+        if valor_final.get() == '':
+            valor_final.set(float(valor.get()))
+            nts_somadas.append(valor.get())
+        else:
+            valor_soma = float(valor_final.get()) + float(valor.get())
+            valor_final.set(valor_soma)
+            nts_somadas.append(valor.get())
 
         
-        
+
         #retorno dos valores somados concatenados
-        lista_somadas = notas_somadas.get()+' + '+valor.get()
-        notas_somadas.set(lista_somadas)
-        
+        notas_somadas.set(nts_somadas)
+        valor_entry.delete(0,'end')
 
         
     #inputs e suas GUI
@@ -53,7 +56,7 @@ def csd_open():
     notas_lbl3 = Label(csd_window,textvariable=num_final).grid(column=3,row=4)
     vfinal_lbl0 = Label(csd_window,text='Valor final: ').grid(column=0,row=5)
     vfinal_lbl = Label(csd_window,textvariable=valor_final).grid(column=2,row=5)
-    nsomadas_lbl0 = Label(csd_window,text='Notas somadas: []').grid(column=0,row=6)
+    nsomadas_lbl0 = Label(csd_window,text='Notas somadas: ').grid(column=0,row=6)
     nsomadas_lbl = Label(csd_window,textvariable=notas_somadas).grid(column=0,columnspan=12,row=6)
 
     csd_window.mainloop()
