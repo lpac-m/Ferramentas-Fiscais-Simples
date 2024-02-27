@@ -71,34 +71,73 @@ def ret():
     #setup da janela
     ret_window = Toplevel()
     ret_window.title('Calculadora de Imposto Retido na Nota')
-    ret_window.geometry('400x200')
+    ret_window.geometry('500x300')
+
+    #declaração das variáveis
+    serv_valor = DoubleVar()
+    pis_ali = DoubleVar()
+    pis_ret = DoubleVar()
+    cssl_ali = DoubleVar()
+    cssl_ret = DoubleVar()
+    inss_ali = DoubleVar()
+    inss_ret = DoubleVar()
+    irrf_ali = DoubleVar()
+    irrf_ret = DoubleVar()
+    cofins_ali = DoubleVar()
+    cofins_ret = DoubleVar()
+    vfinal = DoubleVar()
+
 
     #GUI
     ret_title_lbl = Label(ret_window,text='Calculadora de Imposto Retido na Nota').grid(column=0,row=0)
     serv_lbl = Label(ret_window,text='Valor do Serviço: ').grid(column=0,row=1)
-    serv_entry = Entry(ret_window).grid(column=1,row=1)
+    serv_entry = Entry(ret_window,textvariable=serv_valor)
+    serv_entry.grid(column=1,row=1)
+    serv_entry.focus_set()
 
     imp_lbl = Label(ret_window, text='Imposto').grid(column=0,row=2)
     ali_lbl = Label(ret_window, text='Alíquota').grid(column=1,row=2)
     ret_lbl = Label(ret_window, text='Retenção').grid(column=2,row=2)
 
     pis_lbl = Label(ret_window,text='PISS').grid(column=0,row=3)
-    pis_ali = Entry(ret_window).grid(column=1,row=3)
+    pis_entry = Entry(ret_window,textvariable=pis_ali).grid(column=1,row=3)
+    pis_show = Label(ret_window, textvariable=pis_ret).grid(column=2,row=3)
     
     cssl_lbl = Label(ret_window,text='CSSL').grid(column=0,row=4)
-    cssl_ali = Entry(ret_window).grid(column=1,row=4)
+    cssl_entry = Entry(ret_window,textvariable=cssl_ali).grid(column=1,row=4)
+    cssl_show = Label(ret_window, textvariable=cssl_ret).grid(column=2,row=4)
 
     inss_lbl = Label(ret_window,text='INSS').grid(column=0,row=5)
-    inss_ali = Entry(ret_window).grid(column=1,row=5)
+    inss_entry = Entry(ret_window,textvariable=inss_ali).grid(column=1,row=5)
+    inss_show = Label(ret_window, textvariable=inss_ret).grid(column=2,row=5)
 
     irrf_lbl = Label(ret_window,text='IRRF').grid(column=0,row=6)
-    irrf_ali = Entry(ret_window).grid(column=1,row=6)
+    irrf_entry = Entry(ret_window,textvariable=irrf_ali).grid(column=1,row=6)
+    irrf_show = Label(ret_window, textvariable=irrf_ret).grid(column=2,row=6)
 
     cofins_lbl = Label(ret_window,text='COFINS').grid(column=0,row=7)
-    cofins_ali = Entry(ret_window).grid(column=1,row=7)
+    cofins_entry = Entry(ret_window,textvariable=cofins_ali).grid(column=1,row=7)
+    cofins_show = Label(ret_window, textvariable=cofins_ret).grid(column=2,row=7)
 
-    vfinal = Label(ret_window,text='Valor final da Nota: ').grid(column=0,row=8)
+    vfinal_lbl0 = Label(ret_window,text='Valor final da Nota: ').grid(column=0,row=8)
+    vfinal_lbl = Label(ret_window,textvariable=vfinal).grid(column=2,row=8)
+    btn_calcular = Button(ret_window,text='Calcular',command=lambda:calcular()).grid(column=0,row=9)
 
+    #Cálculos e output
+    def calcular(event=None):
+        pis_ret.set(serv_valor.get()*(pis_ali.get()/100))
+        cssl_ret.set(serv_valor.get()*(cssl_ali.get()/100))
+        inss_ret.set(serv_valor.get()*(inss_ali.get()/100))
+        irrf_ret.set(serv_valor.get()*(irrf_ali.get()/100))
+        cofins_ret.set(serv_valor.get()*(cofins_ali.get()/100))
+        
+        vret = pis_ret.get()+cssl_ret.get()+inss_ret.get()+irrf_ret.get()+cofins_ret.get()
+        vfinal.set(serv_valor.get()-vret)
+
+        
+
+
+    ret_window.bind('<Return>',calcular)
     ret_window.mainloop()
 
 # Main window definition
