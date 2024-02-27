@@ -9,6 +9,7 @@ def csd_open():
     csd_window.title('Calculadora de Serie D')
     csd_window.geometry('400x200')
 
+    #declaração das variaveis
     nts_somadas = []
     valor = StringVar()
     num_nota = IntVar()
@@ -18,7 +19,7 @@ def csd_open():
     notas_somadas = StringVar()
 
     #definição da função Submit para realizar os calculos ao pressionar o botao
-    def submit():
+    def submit(event=None):
         
         #auto incrementação do numero da nota
         notas_count.set(notas_count.get()+1)
@@ -38,6 +39,7 @@ def csd_open():
 
         #retorno dos valores somados concatenados
         notas_somadas.set(nts_somadas)
+        #limpar a caixa de Entry ao finalizar o cálculo
         valor_entry.delete(0,'end')
 
         
@@ -46,7 +48,9 @@ def csd_open():
     num_lbl = Label(csd_window,text='Número da primeira nota: ').grid(column=0,row=1)
     num_entry = Entry(csd_window,textvariable=num_nota).grid(column=1,row=1)
     valor_lbl = Label(csd_window,text='Valor: ').grid(column=0,row=2)
-    valor_entry = Entry(csd_window,textvariable=valor).grid(column=1,row=2)
+    valor_entry = Entry(csd_window,textvariable=valor)
+    valor_entry.grid(column=1,row=2)
+    valor_entry.focus_set()
     submit_btn = Button(csd_window,text='Submeter',command=lambda:submit()).grid(column=2,row=2)
 
     #output
@@ -59,6 +63,7 @@ def csd_open():
     nsomadas_lbl0 = Label(csd_window,text='Notas somadas: ').grid(column=0,row=6)
     nsomadas_lbl = Label(csd_window,textvariable=notas_somadas).grid(column=0,columnspan=12,row=6)
 
+    valor_entry.bind('<Return>',submit)
     csd_window.mainloop()
 
 #definição da Calculadora de Imposto Retido na Nota
