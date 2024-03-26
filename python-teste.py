@@ -32,7 +32,7 @@ def csd_open():
             nts_somadas.append(valor.get())
         else:
             valor_soma = float(valor_final.get()) + float(valor.get())
-            valor_final.set(valor_soma)
+            valor_final.set('{number:.{digits}f}'.format(number=valor_soma, digits=2))
             nts_somadas.append(valor.get())
 
         
@@ -124,18 +124,16 @@ def ret():
     btn_calcular = Button(ret_window,text='Calcular',command=lambda:calcular()).grid(column=0,row=9)
 
     #Cálculos e output
+    #'{number:.{digits}f}'.format(number=res, digits=N)
     def calcular(event=None):
-        pis_ret.set(serv_valor.get()*(pis_ali.get()/100))
-        cssl_ret.set(serv_valor.get()*(cssl_ali.get()/100))
-        inss_ret.set(serv_valor.get()*(inss_ali.get()/100))
-        irrf_ret.set(serv_valor.get()*(irrf_ali.get()/100))
-        cofins_ret.set(serv_valor.get()*(cofins_ali.get()/100))
-        
+        pis_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(pis_ali.get()/100)), digits=2))
+        cssl_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(cssl_ali.get()/100)), digits=2))
+        inss_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(inss_ali.get()/100)), digits=2))
+        irrf_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(irrf_ali.get()/100)), digits=2))
+        cofins_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(cofins_ali.get()/100)), digits=2))
+       
         vret = pis_ret.get()+cssl_ret.get()+inss_ret.get()+irrf_ret.get()+cofins_ret.get()
         vfinal.set(serv_valor.get()-vret)
-
-        
-
 
     ret_window.bind('<Return>',calcular)
     ret_window.mainloop()
@@ -143,7 +141,7 @@ def ret():
 # Main window definition
 window = Tk()
 window.title('teste')
-window.geometry('400x400')
+window.geometry('400x200')
 mainframe = Frame(window,padx=10,pady=5).pack()
 
 lbl1 = Label(mainframe,text='Olá, selecione uma ferramenta: ',justify='center').pack()
