@@ -34,7 +34,6 @@ def csd_open():
             valor_soma = float(valor_final.get()) + float(valor.get())
             valor_final.set('{number:.{digits}f}'.format(number=valor_soma, digits=2))
             nts_somadas.append(valor.get())
-
         
 
         #retorno dos valores somados concatenados
@@ -63,6 +62,8 @@ def csd_open():
     nsomadas_lbl0 = Label(csd_window,text='Notas somadas: ').grid(column=0,row=6)
     nsomadas_lbl = Label(csd_window,textvariable=notas_somadas).grid(column=0,columnspan=12,row=6)
 
+    
+
     valor_entry.bind('<Return>',submit)
     csd_window.mainloop()
 
@@ -75,15 +76,15 @@ def ret():
 
     #declaração das variáveis
     serv_valor = DoubleVar()
-    pis_ali = DoubleVar()
+    pis_ali = DoubleVar(value=0.65)
     pis_ret = DoubleVar()
-    cssl_ali = DoubleVar()
-    cssl_ret = DoubleVar()
+    csll_ali = DoubleVar(value=1)
+    csll_ret = DoubleVar()
     inss_ali = DoubleVar()
     inss_ret = DoubleVar()
-    irrf_ali = DoubleVar()
+    irrf_ali = DoubleVar(value=1.5)
     irrf_ret = DoubleVar()
-    cofins_ali = DoubleVar()
+    cofins_ali = DoubleVar(value=3)
     cofins_ret = DoubleVar()
     vfinal = DoubleVar()
 
@@ -99,13 +100,13 @@ def ret():
     ali_lbl = Label(ret_window, text='Alíquota').grid(column=1,row=2)
     ret_lbl = Label(ret_window, text='Retenção').grid(column=2,row=2)
 
-    pis_lbl = Label(ret_window,text='PISS').grid(column=0,row=3)
+    pis_lbl = Label(ret_window,text='PIS').grid(column=0,row=3)
     pis_entry = Entry(ret_window,textvariable=pis_ali).grid(column=1,row=3)
     pis_show = Label(ret_window, textvariable=pis_ret).grid(column=2,row=3)
     
-    cssl_lbl = Label(ret_window,text='CSSL').grid(column=0,row=4)
-    cssl_entry = Entry(ret_window,textvariable=cssl_ali).grid(column=1,row=4)
-    cssl_show = Label(ret_window, textvariable=cssl_ret).grid(column=2,row=4)
+    csll_lbl = Label(ret_window,text='CSLL').grid(column=0,row=4)
+    csll_entry = Entry(ret_window,textvariable=csll_ali).grid(column=1,row=4)
+    csll_show = Label(ret_window, textvariable=csll_ret).grid(column=2,row=4)
 
     inss_lbl = Label(ret_window,text='INSS').grid(column=0,row=5)
     inss_entry = Entry(ret_window,textvariable=inss_ali).grid(column=1,row=5)
@@ -127,12 +128,12 @@ def ret():
     #'{number:.{digits}f}'.format(number=res, digits=N)
     def calcular(event=None):
         pis_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(pis_ali.get()/100)), digits=2))
-        cssl_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(cssl_ali.get()/100)), digits=2))
+        csll_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(csll_ali.get()/100)), digits=2))
         inss_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(inss_ali.get()/100)), digits=2))
         irrf_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(irrf_ali.get()/100)), digits=2))
         cofins_ret.set('{number:.{digits}f}'.format(number=(serv_valor.get()*(cofins_ali.get()/100)), digits=2))
        
-        vret = pis_ret.get()+cssl_ret.get()+inss_ret.get()+irrf_ret.get()+cofins_ret.get()
+        vret = pis_ret.get()+csll_ret.get()+inss_ret.get()+irrf_ret.get()+cofins_ret.get()
         vfinal.set(serv_valor.get()-vret)
 
     ret_window.bind('<Return>',calcular)
